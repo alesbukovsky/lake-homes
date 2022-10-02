@@ -1,0 +1,102 @@
+body {
+  margin: 0;
+  background: #f7d7bf;
+  color: #2c3e50;
+}
+
+a {
+  text-decoration: none;
+  color: #2c3e50;
+}
+
+#app {
+  display: flex;
+  flex-flow: column;
+}  
+
+.controls {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 0px 0px 0px 0px;
+  padding: 10px;
+  background-color: #a5a58d;
+}
+
+.controls .group {
+  display: flex;
+  flex-flow: row nowrap;
+  margin: 5px 0px 0px 0px;
+  padding: 0;
+}
+
+.controls .group span {
+  align-self: center;
+  margin: 0px 5px 0px 5px;
+}
+
+.controls select {
+  background: #fff1e6;
+  padding: 3px 3px;
+  font-size: 0.90em;
+}
+
+.controls input {
+  background: #fff1e6;
+  padding: 3px 3px;
+  width: 55px;
+  border: 1px solid;
+  font-size: 0.90em;
+}
+  
+.listings {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 0;
+  padding: 0;
+}
+
+.listings .empty {
+  margin: 5px;
+  padding: 5px;
+  color: #5e2e41;
+}
+
+.listing {
+  display: flex;
+  flex-flow: column;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #b3866e;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px #c5a690;
+  background-color: #fff1e6;
+}
+
+.address {
+  margin: 3px 0px 0px 0px;
+  padding: 0;
+}
+
+.info {
+  display: flex;
+  flex-flow: row nowrap;
+  margin: 5px 0px 0px 0px;
+  padding: 0;
+}
+
+.price {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.status {
+  margin-right: 10px;
+}
+
+.change {
+  padding: 3px 5px;
+  font-size: 0.75em;
+  border-radius: 3px;
+  color: #fff1e6;
+  background-color: #19865a;
+}

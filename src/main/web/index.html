@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Lake Homes</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div class="controls">
+        <div class="group">
+          <span>List:</span>
+          <select name="shown" v-model="view">
+            <option value="new">new</option>
+            <option value="price">changed price</option>
+            <option value="status">changed status</option>
+            <option value="removed">removed</option>
+            <option value="active">active</option>
+            <option value="all" selected>all</option>
+          </select>
+        </div>
+        <div class="group">
+          <span>Price:</span>
+          <input id="min" v-model="min" />
+          <span>-</span>  
+          <input id="max" v-model="max" />  
+        </div> 
+        <div class="group">
+          <span>As of: {{ data.asOf }}</span>
+        </div> 
+      </div>
+      <div class="listings">
+        <div class="empty" v-if="shown.length == 0">
+          <span>No listings available, sorry...</span>        
+        </div>
+        <div class="listing" v-for="h in shown">
+          <a v-bind:href="h.link">
+            <img v-bind:src="h.thumbnail" />
+            <div class="address">{{ h.address }}</div>
+            <div class="info">
+              <div class="price">{{ toCurrency(h.price) }}</div> 
+              <div class="status">({{ toLowerCase(h.status) }})</div>
+              <div v-if="h.change != null" class="change">{{ h.change }}</div>
+            </div>
+          </a>  
+        </div>  
+      </div>  
+    </div>
+  </body>
+  <script>
+    const { createApp } = Vue;
+    createApp({
+      async created() {
+        this.data = await this.load();
+        this.min = Math.min(...this.data.houses.map(o => o.price));
+        this.max = Math.max(...this.data.houses.map(o => o.price));
+      },
+      data() {
+        return {
+          data: {
+            asOf: '',
+            houses: []
+          },
+          view: 'new',
+          min: 0,
+          max: 200000
+        }
+      },
+      computed: {
+        shown: function() {
+          switch (this.view) {
+            case 'new':
+              return this.limit(this.data.houses.filter(o => (o.change && o.change.toLowerCase() === 'new')));
+            case 'price':
+              return this.limit(this.data.houses.filter(o => (o.change && o.change.toLowerCase() === 'price'))); 
+            case 'status':
+              return this.limit(this.data.houses.filter(o => (o.change && o.change.toLowerCase() === 'status'))); 
+            case 'removed':
+              return this.limit(this.data.houses.filter(o => (o.change && o.change.toLowerCase() === 'removed'))); 
+            case 'active':
+              return this.limit(this.data.houses.filter(o => (o.status && o.status.toLowerCase() === 'active'))); 
+            case 'all':
+              return this.limit(this.data.houses);  
+            default:
+              return [];
+          }
+        }
+      },
+      methods: {
+        load: async() => {
+          return fetch('./data.json').then(res => res.json());
+        },
+        limit: function(a) {
+          return a.filter(o => o.price >= this.min && o.price <= this.max);  
+        },
+        toCurrency: function(n) {
+          return '$' + Intl.NumberFormat('en-US').format(n);
+        },
+        toLowerCase: function(s) {
+          return s.toLowerCase();
+        }
+      }
+    }).mount('#app');
+  </script>  
+</html>

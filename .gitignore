@@ -1,0 +1,5 @@
+.DS_Store
+.gradle
+build
+data
+src/main/web/*.json

@@ -1,0 +1,24 @@
+plugins {
+    id 'groovy'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.codehaus.groovy:groovy-all:3.0.12'
+    implementation 'com.google.guava:guava:31.0.1-jre'
+    implementation 'org.gebish:geb-core:6.0'
+    implementation 'org.seleniumhq.selenium:selenium-firefox-driver:4.4.0'
+    implementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.4.0'
+    implementation 'org.seleniumhq.selenium:selenium-support:4.4.0'
+}
+
+task scrape(type: JavaExec) {
+    mainClass = 'Scrape'
+    classpath = sourceSets.main.runtimeClasspath
+    systemProperty 'webdriver.gecko.driver', '/usr/local/Cellar/geckodriver/0.31.0/bin/geckodriver'
+    systemProperty 'webdriver.chrome.driver', '/usr/local/bin/chromedriver'
+    systemProperty 'geb.driver', 'chrome'
+}
