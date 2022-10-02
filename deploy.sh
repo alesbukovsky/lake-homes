@@ -1,5 +1,5 @@
 #!/bin/sh
-source ./env.sh
+source ./_lib.sh
 
 export SRC="$(pwd)/src/main/web"
 
