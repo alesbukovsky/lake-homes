@@ -1,6 +1,6 @@
 #!/bin/sh
-if [ -z "$1" ]; then
-    echo "ERROR: file to process not specified"
+if [ ! -f "$1" ]; then
+    echo "ERROR: unable to read from specificed file"
     exit 1
 fi
 
