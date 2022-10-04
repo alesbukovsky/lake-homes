@@ -1,10 +1,10 @@
-DELETE FROM houses WHERE UPPER(change) = 'REMOVED';
+DELETE FROM homes WHERE UPPER(change) = 'REMOVED';
 
-UPDATE houses 
+UPDATE homes 
 SET change = 'REMOVED' 
 WHERE mls NOT IN (SELECT mls FROM uploads);
 
-INSERT INTO houses (mls, state, address, price, status, change, link, thumbnail) (
+INSERT INTO homes (mls, state, address, price, status, change, link, thumbnail) (
     SELECT mls, state, address, price, status, 'NEW', link, thumbnail FROM uploads
 ) ON CONFLICT (mls) DO UPDATE SET
     state = EXCLUDED.state,

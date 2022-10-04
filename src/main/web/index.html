@@ -66,14 +66,14 @@
     createApp({
       async created() {
         this.data = await this.load();
-        this.min = Math.min(...this.data.houses.map(o => o.price));
-        this.max = Math.max(...this.data.houses.map(o => o.price));
+        this.min = Math.min(...this.data.homes.map(o => o.price));
+        this.max = Math.max(...this.data.homes.map(o => o.price));
       },
       data() {
         return {
           data: {
             asOf: '',
-            houses: []
+            homes: []
           },
           view: 'new',
           state: 'all',
@@ -83,7 +83,7 @@
       },
       computed: {
         shown: function() {
-          return this.data.houses.filter((o) => {
+          return this.data.homes.filter((o) => {
             
             // removed listings do not show anywhere except the removed view
             if (this.view === 'removed') {

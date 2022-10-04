@@ -1,7 +1,7 @@
-SELECT COUNT(*) FROM houses;
+SELECT COUNT(*) FROM homes;
 
-SELECT state, COUNT(*) FROM houses GROUP BY state;
+SELECT state, COUNT(*) FROM homes GROUP BY state;
 
-SELECT change, COUNT(*) FROM houses GROUP BY change;
+SELECT change, COUNT(*) FROM homes GROUP BY change;
 
-SELECT status, COUNT(*) FROM houses GROUP BY status;
+SELECT status, COUNT(*) FROM homes GROUP BY status;
