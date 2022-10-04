@@ -16,7 +16,7 @@ cfg = [
 ]
 
 def ts = DateTimeFormatter.ofPattern('yyMMdd').format(LocalDate.now())
-def fi = new File("${cfg.dir}/lakehomes-${ts}.csv");
+def fi = new File("${cfg.dir}/scrape-${ts}.csv");
 
 def known = [:]
 if (fi.exists()) {
@@ -97,8 +97,8 @@ Browser.drive {
                     def state = parts[parts.size() - 2]
 
                     def status = $('div', 0, class:'status').$('span', class:'value').text().replace(' ', '-').toUpperCase()
-                    if (status.contains('---')) status = status.takeBefore('---')
                     if (status.contains('UNDER-CONTRACT') status = 'UNDER-CONTRACT'                    
+                    if (status.contains('---')) status = status.takeBefore('---')
 
                     if (!known.containsKey(mls)) {
                         rec = "${mls}|${state}|${address}|${price}|${status}|${prop[0]}|${prop[1]}"

@@ -13,13 +13,24 @@
       <div class="controls">
         <div class="group">
           <span>List:</span>
-          <select name="shown" v-model="view">
+          <select name="view" v-model="view">
             <option value="new">new</option>
             <option value="price">changed price</option>
-            <option value="status">changed status</option>
-            <option value="removed">removed</option>
             <option value="active">active</option>
-            <option value="all" selected>all</option>
+            <option value="status">changed status</option>
+            <option value="not-active">not active</option>
+            <option value="all">all</option>
+            <option value="removed">removed</option>
+          </select>
+        </div>
+        <div class="group">
+          <span>State:</span>    
+          <select name="state" v-model="state">
+            <option value="all">all</option>
+            <option value="CT">CT</option>
+            <option value="MA">MA</option>
+            <option value="NH">NH</option>
+            <option value="VT">VT</option>
           </select>
         </div>
         <div class="group">
@@ -65,36 +76,49 @@
             houses: []
           },
           view: 'new',
+          state: 'all',
           min: 0,
           max: 200000
         }
       },
       computed: {
         shown: function() {
-          switch (this.view) {
-            case 'new':
-              return this.limit(this.data.houses.filter(o => (o.change && o.change.toLowerCase() === 'new')));
-            case 'price':
-              return this.limit(this.data.houses.filter(o => (o.change && o.change.toLowerCase() === 'price'))); 
-            case 'status':
-              return this.limit(this.data.houses.filter(o => (o.change && o.change.toLowerCase() === 'status'))); 
-            case 'removed':
-              return this.limit(this.data.houses.filter(o => (o.change && o.change.toLowerCase() === 'removed'))); 
-            case 'active':
-              return this.limit(this.data.houses.filter(o => (o.status && o.status.toLowerCase() === 'active'))); 
-            case 'all':
-              return this.limit(this.data.houses);  
-            default:
-              return [];
-          }
+          return this.data.houses.filter((o) => {
+            
+            // removed listings do not show anywhere except the removed view
+            if (this.view === 'removed') {
+              if (!o.change || o.change.toLowerCase() !== 'removed') {
+                return false;
+              }
+            } else {
+              if (o.change && o.change.toLowerCase() === 'removed') {
+                return false;
+              }
+            } 
+            
+            // other changes show is relevant views
+            if (['new', 'price', 'status'].includes(this.view)) {
+              if (!o.change || o.change.toLowerCase() !== this.view) {
+                return false;
+              }
+            }  
+            
+            if (this.view === 'active' && o.status.toLowerCase() !== 'active') {
+              return false;
+            }
+            if (this.view === 'not-active' && o.status.toLowerCase() === 'active') {
+              return false;
+            }
+            if (this.state !== 'all' && o.state.toUpperCase() !== this.state) {
+              return false;
+            }
+            return (o.price >= this.min && o.price <= this.max);
+          })
         }
       },
       methods: {
         load: async() => {
           return fetch('./data.json').then(res => res.json());
-        },
-        limit: function(a) {
-          return a.filter(o => o.price >= this.min && o.price <= this.max);  
         },
         toCurrency: function(n) {
           return '$' + Intl.NumberFormat('en-US').format(n);
