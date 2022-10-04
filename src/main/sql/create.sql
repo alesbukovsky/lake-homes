@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS houses (
     mls INTEGER NOT NULL PRIMARY KEY UNIQUE,
     change VARCHAR(100),
+    state VARCHAR(2),
     address VARCHAR(500),
     price INTEGER,
     status VARCHAR(25),
@@ -10,6 +11,7 @@ CREATE TABLE IF NOT EXISTS houses (
 
 CREATE TABLE IF NOT EXISTS uploads (
     mls INTEGER NOT NULL PRIMARY KEY UNIQUE,
+    state VARCHAR(2),
     address VARCHAR(500),
     price INTEGER,
     status VARCHAR(25),
@@ -20,7 +22,7 @@ CREATE TABLE IF NOT EXISTS uploads (
 CREATE TABLE IF NOT EXISTS metas (
     key VARCHAR(25) NOT NULL PRIMARY KEY UNIQUE,
     value VARCHAR(100)
-)
+);
 
 CREATE OR REPLACE FUNCTION record_change() RETURNS TRIGGER 
 AS $$

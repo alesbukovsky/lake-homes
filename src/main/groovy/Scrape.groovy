@@ -89,13 +89,19 @@ Browser.drive {
                     go prop[0]
                     sleep(500)
 
-                    def address = $('h1').text().replace('\n', ', ')
                     def price = $('h3', text:startsWith('$')).text().replace('$', '').replace(',', '')
-                    def status = $('div', 0, class:'status').$('span', class:'value').text().replace(' ', '-').toUpperCase()
                     def mls = $('div', 0, class:'mls#').$('span', class:'value').text()
 
+                    def address = $('h1').text().replace('\n', ', ')
+                    def parts = address.split(/\s+/)
+                    def state = parts[parts.size() - 2]
+
+                    def status = $('div', 0, class:'status').$('span', class:'value').text().replace(' ', '-').toUpperCase()
+                    if (status.contains('---')) status = status.takeBefore('---')
+                    if (status.contains('UNDER-CONTRACT') status = 'UNDER-CONTRACT'                    
+
                     if (!known.containsKey(mls)) {
-                        rec = "${mls}|${address}|${price}|${status}|${prop[0]}|${prop[1]}"
+                        rec = "${mls}|${state}|${address}|${price}|${status}|${prop[0]}|${prop[1]}"
                         known[mls] = null
                     }
                 }
