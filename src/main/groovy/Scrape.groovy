@@ -11,7 +11,7 @@ cfg = [
         '/new-hampshire',
         '/vermont'
     ],
-    'dir'    : '/Users/alesbukovsky/Dev/houses/data',
+    'dir'    : '/Users/alesbukovsky/Dev/lake-homes/data',
     'price'  : 200000
 ]
 
@@ -97,7 +97,7 @@ Browser.drive {
                     def state = parts[parts.size() - 2]
 
                     def status = $('div', 0, class:'status').$('span', class:'value').text().replace(' ', '-').toUpperCase()
-                    if (status.contains('UNDER-CONTRACT') status = 'UNDER-CONTRACT'                    
+                    if (status.contains('UNDER-CONTRACT')) status = 'UNDER-CONTRACT'                    
                     if (status.contains('---')) status = status.takeBefore('---')
 
                     if (!known.containsKey(mls)) {
