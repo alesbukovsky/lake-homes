@@ -61,6 +61,7 @@ Browser.drive {
                 $('div', class:'listing-item').$('a').forEach { a ->
                     def i = a.$('img', class:'card-img-top').attr('src')  
                     def p = a.$('div', class:'card-title').$('strong').text().replace('$', '').replace(',', '')
+
                     if ((p as int) <= cfg.price) {
                         props << [a.attr('href'), (i ? i : '')]
                     }
@@ -91,8 +92,8 @@ Browser.drive {
 
                     def price = $('h3', text:startsWith('$')).text().replace('$', '').replace(',', '')
                     def mls = $('div', 0, class:'mls#').$('span', class:'value').text()
-
-                    def address = $('h1').text().replace('\n', ', ')
+                    
+                    def address = $('hgroup').$('h1').text() + ', ' + $('hgroup').$('p').text().toUpperCase()
                     def parts = address.split(/\s+/)
                     def state = parts[parts.size() - 2]
 
