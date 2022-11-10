@@ -21,6 +21,8 @@ Scrapes listings from [lakehomes.com](https://www.lakehomes.com) based on filter
 
 Scraping uses [Geb](https://gebish.org/) to navigate the website in a headless browser. The script defines basic filtering criteria, e.g. states to include and maximum listing price. The data is written into a dated pipe-separated (`|`) CSV file within `./data` directory. If a pre-existing file is detected for the same date, it is considered a result of an interrupted run. In that case, the already captured data is used instead of re-scraping the listings.
 
+CAUTION: screensaver and display turn-off should be disabled during scraping.
+
 Update stores the date of the file in the `metas` table and inserts all listings into a temporary `uploads` table. A SQL script deletes all records previously marked as `REMOVED` and proceeds to mark new removals via a comparison of `uploads` and `homes` tables. All records from `uploads` are upserted into `homes` - inserted as `NEW`, updated with no change indicator. Associated database trigger checks for changes in price (`PRICE`) or status (`STATUS`). The resulting value of `change` column indicate detected difference from the previous update.
 
 Publishing generates a single JSON file `data.json` from the current data in the database. It copies it to the remote HTTP server (Raspberry Pi) via `scp` as well as local web UI development directory (`./src/main/web`).
