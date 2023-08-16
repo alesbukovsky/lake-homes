@@ -1,12 +1,18 @@
 #!/bin/sh
-if [ ! -f "$1" ]; then
-    echo "ERROR: unable to read from specificed file"
+SRC=$1
+
+if [ -z "$SRC" ]; then
+    SRC="./data/scrape-$(date -j "+%y%m%d").csv"
+fi     
+
+if [ ! -f "$SRC" ]; then
+    echo "ERROR: unable to read from specificed file [$SRC]"
     exit 1
 fi
 
 source ./_lib.sh
 
-DT="${1#*-}"
+DT="${SRC#*-}"
 DT="${DT%%.*}"
 DT="20${DT:0:2}-${DT:2:2}-${DT:4:2}"  
 
