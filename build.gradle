@@ -18,7 +18,4 @@ dependencies {
 task scrape(type: JavaExec) {
     mainClass = 'Scrape'
     classpath = sourceSets.main.runtimeClasspath
-    systemProperty 'webdriver.gecko.driver', '/usr/local/Cellar/geckodriver/0.31.0/bin/geckodriver'
-    systemProperty 'webdriver.chrome.driver', '/usr/local/bin/chromedriver'
-    systemProperty 'geb.driver', 'chrome'
 }

@@ -29,9 +29,11 @@ Publishing generates a single JSON file `data.json` from the current data in the
 
 Deployment (`deploy.sh`) copies all CSS and HTML files from the local web UI development folder to remote HTTP server (Raspberry Pi) via `scp`.
 
-### Tips
+### Tips & Tricks
 
 When `chromedriver` is installed or upgraded via `brew`, macOS is likely to fail the scraping process with `Error: “chromedriver” cannot be opened because the developer cannot be verified`. Run the following in a shell:
 ```
 xattr -d com.apple.quarantine /usr/local/bin/chromedriver
 ```
+
+Starting `chromedriver` 111 the default remote origin policy has changed. It is now necessary to allow `*` wildcard explicitly via the driver [options](./src/main/groovy/GebConfig.groovy).

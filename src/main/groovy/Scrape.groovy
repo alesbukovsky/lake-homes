@@ -28,8 +28,6 @@ if (fi.exists()) {
 def out = fi.newPrintWriter()
 
 Browser.drive {
-    getDriver().manage().window().maximize() 
-
     cfg.routes.forEach { route ->
         go cfg.root + route
         sleep(500)
